@@ -1,0 +1,209 @@
+<!DOCTYPE html><html lang="fa" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>پذیرش و ترخیص خودرو</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{--bg:#0d0d0f;--ink:#efe6d2;--mut:#a39673;--g:#c9a45c;--ln:rgba(201,164,92,.4);--bad:#e08a7a;--ok:#9cc9a0;--fill:#0d0d0f;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#faf7f0;--ink:#2b2418;--mut:#7a6a46;--g:#9a7424;--ln:rgba(154,116,36,.45);--bad:#b3261e;--ok:#2e7d4f;--fill:#faf7f0}}
+*{box-sizing:border-box}html,body{margin:0;overflow-x:hidden}
+body{background:var(--bg);color:var(--ink);font:300 15px/1.8 Vazirmatn,Tahoma,sans-serif;padding:14px 14px 100px;max-width:640px;margin:auto}
+#app{position:relative;z-index:1}
+#wm{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);max-width:70vw;max-height:50vh;opacity:.07;pointer-events:none;z-index:0}
+h1{font-size:25px;font-weight:300;margin:6px 0 14px;color:var(--g)}h2{font-size:17px;font-weight:700;margin:0 0 6px;color:var(--g)}
+.card{border:1px solid var(--ln);border-radius:3px;padding:14px;margin:0 0 14px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}.tap{cursor:pointer}
+.mut{color:var(--mut);font-size:13px}.bad{color:var(--bad)}.ok{color:var(--ok)}
+input,select,textarea{width:100%;font:inherit;color:inherit;background:none;border:0;border-bottom:1px solid var(--ln);border-radius:0;padding:8px 2px;margin:0 0 8px;outline:0}
+input:focus,select:focus,textarea:focus{border-bottom-color:var(--g)}select option{background:var(--bg);color:var(--ink)}
+label{display:block;font-size:13px;color:var(--mut)}
+.btn{font:400 15px Vazirmatn,Tahoma,sans-serif;background:none;color:var(--g);border:1px solid var(--g);border-radius:3px;padding:9px 14px;cursor:pointer;text-decoration:none;text-align:center;display:inline-block}
+.btn.f{background:var(--g);color:var(--fill)}.btn.red{color:var(--bad);border-color:var(--bad)}
+.bar{display:flex;gap:8px;flex-wrap:wrap}.bar .btn{flex:1}
+.link{background:none;border:0;color:var(--g);font:400 14px Vazirmatn,Tahoma,sans-serif;padding:4px 0;cursor:pointer}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.chip{font:inherit;font-size:13px;background:none;color:var(--ink);border:1px solid var(--ln);border-radius:20px;padding:2px 12px;cursor:pointer}.chip.on{border-color:var(--g);color:var(--g)}
+.plate{border:1px solid var(--g);border-radius:3px;padding:0 10px;color:var(--g);letter-spacing:1px;white-space:nowrap}
+.it{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:6px 0;border-bottom:1px dashed var(--ln)}
+.g3{display:grid;grid-template-columns:2fr 1fr 1.4fr auto;gap:8px;align-items:end}.g2{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}
+.sum{display:flex;justify-content:space-between;padding:2px 0}.sum.big{font-weight:700;font-size:17px;border-top:1px solid var(--g);margin-top:6px;padding-top:8px}
+nav{position:fixed;inset:auto 0 0 0;display:flex;background:var(--bg);border-top:1px solid var(--ln);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));z-index:5}
+nav button{flex:1;font:400 13px Vazirmatn,Tahoma,sans-serif;background:none;border:0;color:var(--mut);padding:8px 2px;cursor:pointer}nav button.on{color:var(--g);border-bottom:1px solid var(--g)}
+.fab{position:fixed;left:16px;bottom:calc(72px + env(safe-area-inset-bottom,0px));z-index:6}
+#toast{position:fixed;inset:auto 16px 130px;background:var(--g);color:var(--fill);padding:10px 14px;border-radius:3px;text-align:center;display:none;z-index:9}
+#inv{position:fixed;left:-10000px;top:0;width:794px;min-height:1123px;background:#fff;color:#1b1b1b;padding:48px;direction:rtl;font:300 14px/1.8 Vazirmatn,Tahoma,sans-serif}
+#inv .wm{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);max-width:60%;max-height:40%;opacity:.09}
+#inv>*:not(.wm){position:relative}#inv h2{color:#9a7424}
+#inv table{width:100%;border-collapse:collapse;margin:10px 0}#inv th,#inv td{border:1px solid #c9a45c;padding:4px 8px;text-align:right}#inv th{background:#f6efdc}
+.ih{display:flex;justify-content:space-between;border-bottom:2px solid #c9a45c;padding-bottom:10px}.ig{display:grid;grid-template-columns:1fr 1fr;gap:2px 20px;margin:12px 0}
+.tt{width:55%;margin-right:auto}.sg{display:flex;justify-content:space-between;margin-top:70px}.sg span{border-top:1px solid #000;padding-top:6px;width:40%;text-align:center}
+</style></head><body><script>window.onerror=function(m){var a=document.getElementById("app");if(a)a.innerHTML="<p style=\"padding:20px;color:#e08a7a\">خطا: "+m+"</p>"};</script>
+<img id="wm" alt="" style="display:none"><div id="app"></div><div id="inv"></div><div id="toast"></div>
+<nav><button data-v="list" onclick="go('list')">پذیرش‌ها</button><button data-v="sms" onclick="go('sms')">پیامک</button><button data-v="chk" onclick="go('chk')">چک‌ها</button><button data-v="acc" onclick="go('acc')">حساب‌ها</button><button data-v="set" onclick="go('set')">تنظیمات</button></nav>
+<script>
+const $=s=>document.querySelector(s);
+const fa=n=>Number(n||0).toLocaleString('fa-IR');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const num=s=>+String(s).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[,٬،\s]/g,'')||0;
+let db={shop:'تعمیرگاه من',phone:'',logo:'',jobs:[],seq:1};
+try{const r=localStorage.getItem('carshop');if(r)db=Object.assign(db,JSON.parse(r))}catch(e){}
+const save=()=>{try{localStorage.setItem('carshop',JSON.stringify(db))}catch(e){toast('ذخیره‌سازی پر است؛ لوگو را کوچکتر کنید')}};
+let view='list',cur=null,q='',flt='all',ed=null,delArm=false,pk='cash',sk='ad';
+const ST={pre:'پیش‌فاکتور',in:'در حال کار',ready:'آماده تحویل',out:'ترخیص شده'},SM={pf:'پیش‌فاکتور',ad:'پذیرش',wk:'در حال تعمیر',rd:'آماده تحویل',dl:'تحویل'},CS={p:'در جریان',c:'وصول شد',b:'برگشت خورد'};
+const total=j=>j.items.reduce((s,i)=>s+i.q*i.p,0);
+const okp=j=>j.pays.filter(p=>!(p.k==='chk'&&p.c.s==='b'));
+const paid=j=>okp(j).reduce((s,p)=>s+p.a,0),chkS=j=>okp(j).filter(p=>p.k==='chk').reduce((s,p)=>s+p.a,0),rest=j=>total(j)-paid(j);
+const dt=t=>new Date(t).toLocaleDateString('fa-IR'),job=()=>db.jobs.find(j=>j.id===cur);
+const toast=m=>{const t=$('#toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',3500)};
+const bal=r=>r>0?`<span class="bad">بدهکار ${fa(r)}</span>`:r<0?`<span class="ok">طلبکار ${fa(-r)}</span>`:'<span class="ok">تسویه</span>';
+function go(v,id){view=v;if(id!==undefined)cur=id;delArm=false;if(v!=='form')ed=null;render();scrollTo(0,0)}
+function render(){
+ $('#app').innerHTML=({list:List,chk:Chk,acc:Acc,form:Form,job:Job,set:Settings,sms:Sms,smsd:SmsD})[view]();
+ $('#inv').innerHTML=view==='job'&&job()?Inv(job()):'';
+ const w=$('#wm');w.style.display=db.logo?'block':'none';if(db.logo)w.src=db.logo;
+ document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===(view==='job'||view==='form'?'list':view==='smsd'?'sms':view)));
+}
+const Card=j=>`<div class="card tap" onclick="go('job',${j.id})"><div class="row"><b>${esc(j.brand)} ${esc(j.model)} ${esc(j.year)}</b><span class="plate">${esc(j.plate)}</span></div>
+<div class="row"><span>${esc(j.owner)}</span><span class="mut">${ST[j.st]}</span></div><div class="row"><span class="mut">${dt(j.t)}</span>${j.st==='pre'?`<span class="mut">برآورد ${fa(total(j))}</span>`:total(j)||j.pays.length?bal(rest(j)):''}</div></div>`;
+function listHtml(){
+ const L=db.jobs.filter(j=>(flt==='all'||j.st===flt)&&(!q||[j.owner,j.plate,j.brand,j.model,j.phone].join(' ').includes(q))).sort((x,y)=>y.t-x.t);
+ return L.length?L.map(Card).join(''):'<p class="mut" style="text-align:center">پذیرشی پیدا نشد. «پذیرش جدید» را بزنید.</p>';
+}
+function List(){
+ return `<h1>${esc(db.shop)}</h1><input placeholder="جستجو: نام، پلاک، مدل" value="${esc(q)}" oninput="q=this.value;$('#L').innerHTML=listHtml()">
+<div class="chips">${[['all','همه'],...Object.entries(ST)].map(([k,l])=>`<button class="chip ${flt===k?'on':''}" onclick="flt='${k}';render()">${l}</button>`).join('')}</div>
+<div id="L">${listHtml()}</div><button class="btn f fab" onclick="ed=null;go('form')">+ پذیرش جدید</button>`;
+}
+const dkey=s=>num(String(s).replace(/[^\d۰-۹٠-٩]/g,''));
+function Chk(){
+ const L=[];db.jobs.forEach(j=>j.pays.forEach((p,n)=>{if(p.k==='chk')L.push({j,p,n})}));
+ L.sort((a,b)=>dkey(a.p.c.due)-dkey(b.p.c.due));
+ const S=L.filter(x=>x.p.c.s==='p').reduce((s,x)=>s+x.p.a,0);
+ return `<h1>چک‌های دریافتی</h1><div class="card row"><span>مجموع چک‌های در جریان</span><b>${fa(S)} تومان</b></div>
+${L.map(({j,p,n})=>`<div class="card"><div class="row"><b>${fa(p.a)} تومان</b><button class="chip on" onclick="cyc(${j.id},${n})">${CS[p.c.s]}</button></div>
+<div>سررسید ${esc(p.c.due)||'—'}</div><div class="mut">${esc(p.c.bank)} | شماره ${esc(p.c.no)} | صاحب حساب ${esc(p.c.own)}</div>
+<button class="link" onclick="go('job',${j.id})">${esc(j.owner)}، ${esc(j.brand)} ${esc(j.model)}</button></div>`).join('')||'<p class="mut" style="text-align:center">چکی ثبت نشده.</p>'}`;
+}
+function cyc(id,n){const p=db.jobs.find(j=>j.id===id).pays[n];p.c.s={p:'c',c:'b',b:'p'}[p.c.s];save();render()}
+function Acc(){
+ const m={};db.jobs.filter(j=>j.st!=='pre').forEach(j=>{const k=j.owner+'|'+j.phone;(m[k]=m[k]||{o:j.owner,p:j.phone,b:0}).b+=rest(j)});
+ const L=Object.values(m).filter(x=>x.b).sort((a,b)=>Math.abs(b.b)-Math.abs(a.b));
+ const D=L.reduce((s,x)=>s+(x.b>0?x.b:0),0),C=L.reduce((s,x)=>s+(x.b<0?-x.b:0),0);
+ return `<h1>حساب کل</h1>${Totals()}<h2>حساب هر مشتری</h2>
+${L.map(x=>`<div class="card tap row" onclick="q='${esc(x.o).replace(/'/g,'')}';flt='all';go('list')"><span>${esc(x.o)}<br><span class="mut">${esc(x.p)}</span></span>${bal(x.b)}</div>`).join('')||'<p class="mut" style="text-align:center">حساب بازی وجود ندارد.</p>'}`;
+}
+function Totals(){
+ const A=db.jobs.filter(j=>j.st!=='pre'),m={},C={p:0,c:0,b:0};let T=0,P=0;
+ A.forEach(j=>{T+=total(j);P+=paid(j)-chkS(j);j.pays.forEach(p=>{if(p.k==='chk')C[p.c.s]+=p.a});const k=j.owner+'|'+j.phone;m[k]=(m[k]||0)+rest(j)});
+ let D=0,K=0;Object.values(m).forEach(b=>b>0?D+=b:K-=b);
+ const PF=db.jobs.filter(j=>j.st==='pre').reduce((s,j)=>s+total(j),0);
+ const r=(l,v,c)=>`<div class="sum"><span>${l}</span><b class="${c||''}">${fa(v)}</b></div>`;
+ return `<div class="card"><h2>خلاصه کل</h2>${r('جمع همه فاکتورها',T)}${r('دریافتی نقد و کارت',P)}${r('چک‌های در جریان',C.p)}${r('چک‌های وصول‌شده',C.c)}${r('چک‌های برگشتی',C.b,'bad')}<div class="sum big"><span>جمع دریافتی (بدون برگشتی)</span><b>${fa(P+C.p+C.c)}</b></div></div>
+<div class="card">${r('مطالبات از مشتریان (بدهکاران)',D,'bad')}${r('بدهی شما به مشتریان (طلبکاران)',K,'ok')}${PF?r('پیش‌فاکتورهای باز (برآورد)',PF):''}<div class="mut">چک‌های در جریان از بدهی کم شده‌اند؛ چک برگشتی دوباره به بدهی برمی‌گردد.</div></div>`;
+}
+function SmsBox(j){return `<div class="card"><h2>متن پیامک</h2><div class="chips">${Object.entries(SM).map(([k,l])=>`<button class="chip ${sk===k?'on':''}" onclick="sk='${k}';render()">${l}</button>`).join('')}</div><textarea id="sms" rows="8">${esc(smsText(j,sk))}</textarea><div class="bar"><button class="btn" onclick="cp()">کپی متن</button><a class="btn" href="#" onclick="this.href='sms:${esc(j.phone)}?body='+encodeURIComponent($('#sms').value)">باز کردن پیامک</a></div></div>`}
+function Sms(){
+ return `<h1>پیامک مشتریان</h1><p class="mut">خودرو را انتخاب کنید و نوع پیام را بزنید؛ متن با مشخصات همان خودرو ساخته می‌شود.</p>${db.jobs.slice().sort((x,y)=>y.t-x.t).map(j=>`<div class="card"><div class="row"><b>${esc(j.brand)} ${esc(j.model)} ${esc(j.year)}</b><span class="plate">${esc(j.plate)}</span></div><div class="mut">${esc(j.owner)} ${esc(j.phone)}</div><div class="chips">${Object.entries(SM).map(([k,l])=>`<button class="chip" onclick="sk='${k}';go('smsd',${j.id})">${l}</button>`).join('')}</div></div>`).join('')||'<p class="mut" style="text-align:center">هنوز خودرویی ثبت نشده.</p>'}`;
+}
+function SmsD(){const j=job();return `<button class="link" onclick="go('sms')">‹ بازگشت</button><div class="card"><div class="row"><b>${esc(j.brand)} ${esc(j.model)} ${esc(j.year)}</b><span class="plate">${esc(j.plate)}</span></div><div>${esc(j.owner)} ${esc(j.phone)}</div></div>${SmsBox(j)}`}
+const F=[['owner','نام مشتری'],['phone','موبایل'],['plate','پلاک'],['brand','نوع خودرو (مثلاً پژو)'],['model','مدل (مثلاً ۲۰۶)'],['year','سال ساخت'],['color','رنگ'],['km','کارکرد (کیلومتر)']];
+function Form(){
+ const v=ed||{};
+ return `<h1>${ed?'ویرایش مشخصات':'پذیرش جدید'}</h1><div class="card">${F.map(([k,l])=>`<label>${l}<input id="f_${k}" value="${esc(v[k])}"></label>`).join('')}
+<label>درخواست مشتری / شرح مشکل<textarea id="f_note" rows="3">${esc(v.note)}</textarea></label></div>
+<div class="bar"><button class="btn f" onclick="saveJob()">ذخیره</button>${ed?'':'<button class="btn" onclick="saveJob(true)">ثبت به‌عنوان پیش‌فاکتور</button>'}<button class="btn" onclick="${ed?`go('job',${ed.id})`:"go('list')"}">انصراف</button></div>`;
+}
+function saveJob(pre){
+ const o={};F.forEach(([k])=>o[k]=$('#f_'+k).value.trim());o.note=$('#f_note').value.trim();
+ if(!o.owner&&!o.plate)return toast('نام مشتری یا پلاک را وارد کنید');
+ if(ed){Object.assign(ed,o);cur=ed.id}else{const j={id:db.seq++,t:Date.now(),st:pre===true?'pre':'in',items:[],pays:[],...o};db.jobs.push(j);cur=j.id}
+ save();ed=null;go('job');
+}
+function smsText(j,k){
+ const car=`${j.brand} ${j.model} ${j.year}`.trim(),who=`${j.owner} عزیز، سلام`,R=rest(j),T=total(j);
+ const rs=R>0?`مانده حساب: ${fa(R)} تومان`:'';
+ const x={
+ pf:`${who}
+پیش‌فاکتور خودروی ${car} (پلاک ${j.plate}) آماده شد.${T?`
+برآورد هزینه: ${fa(T)} تومان`:''}
+این پیش‌فاکتور تا ۷ روز اعتبار دارد. در صورت تأیید، خودرو را برای تعمیر به ${db.shop} تحویل دهید.`,
+ ad:`${who}\nخودروی ${car} به پلاک ${j.plate} در تاریخ ${dt(j.t)} در ${db.shop} پذیرش شد. پس از بررسی کارشناسی، نتیجه را به شما اطلاع می‌دهیم.`,
+ wk:`${who}\nتعمیر خودروی ${car} (پلاک ${j.plate}) آغاز شده است. پس از پایان کار بلافاصله خبرتان می‌کنیم.`,
+ rd:`${who}\nکار خودروی ${car} (پلاک ${j.plate}) به پایان رسید و آماده تحویل است.${T?`\nهزینه کل: ${fa(T)} تومان`:''}${rs?'\n'+rs:''}\nمنتظر حضور شما هستیم.`,
+ dl:`${who}\nخودروی ${car} (پلاک ${j.plate}) امروز تحویل شما شد.${rs?'\n'+rs:''}\nاز اعتماد شما سپاسگزاریم و رانندگی ایمن برایتان آرزو می‌کنیم.`}[k];
+ return x+`\n${db.shop}${db.phone?'\n'+db.phone:''}`;
+}
+function cp(){const t=$('#sms');t.select();const f=()=>{let ok=false;try{ok=document.execCommand('copy')}catch(e){}toast(ok?'متن کپی شد':'متن انتخاب شد؛ دستی کپی کنید')};
+ navigator.clipboard?navigator.clipboard.writeText(t.value).then(()=>toast('متن کپی شد'),f):f()}
+function Job(){
+ const j=job(),T=total(j),P=paid(j),R=T-P,C=chkS(j);
+ return `<button class="link" onclick="go('list')">‹ بازگشت</button>
+<div class="card"><div class="row"><h2>${esc(j.brand)} ${esc(j.model)} ${esc(j.year)}</h2><span class="plate">${esc(j.plate)}</span></div>
+<div>${esc(j.owner)} <a class="link" href="tel:${esc(j.phone)}">${esc(j.phone)}</a></div>
+<div class="mut">رنگ ${esc(j.color)} | کارکرد ${esc(j.km)} | پذیرش ${dt(j.t)}${j.out?' | ترخیص '+dt(j.out):''}</div>${j.note?`<p>${esc(j.note)}</p>`:''}
+<div class="chips">${Object.entries(ST).map(([k,l])=>`<button class="chip ${j.st===k?'on':''}" onclick="setSt('${k}')">${l}</button>`).join('')}</div>
+<button class="link" onclick="ed=job();go('form')">ویرایش مشخصات</button></div>
+<div class="card"><h2>خدمات و قطعات</h2>${j.items.map((i,n)=>`<div class="it"><span>${esc(i.t)}<br><span class="mut">${fa(i.q)} × ${fa(i.p)}</span></span><b>${fa(i.q*i.p)}</b><button class="link bad" onclick="delItem(${n})">حذف</button></div>`).join('')}
+<div class="g3" style="margin-top:12px"><input id="i_t" placeholder="مثلاً تعویض روغن موتور"><input id="i_q" inputmode="numeric" placeholder="تعداد" value="1"><input id="i_p" inputmode="numeric" placeholder="قیمت (تومان)"><button class="btn f" style="margin-bottom:8px" onclick="addItem()">+</button></div>
+<div class="mut">هر بار + بزنید یک ردیف جدید به فاکتور اضافه می‌شود.</div></div>
+<div class="card"><h2>دریافتی‌ها</h2>${j.pays.map((p,n)=>`<div class="it"><span>${{cash:'نقد',card:'کارت',chk:'چک'}[p.k||'cash']} ${esc(p.n)}<br><span class="mut">${dt(p.d)}${p.c?` | ${esc(p.c.bank)} شماره ${esc(p.c.no)} سررسید ${esc(p.c.due)} (${CS[p.c.s]})`:''}</span></span><b>${fa(p.a)}</b><button class="link bad" onclick="delPay(${n})">حذف</button></div>`).join('')}
+<div class="chips" style="margin-top:12px">${[['cash','نقد'],['card','کارت'],['chk','چک']].map(([k,l])=>`<button class="chip ${pk===k?'on':''}" onclick="pk='${k}';render()">${l}</button>`).join('')}</div>
+<div class="g2"><input id="p_a" inputmode="numeric" placeholder="مبلغ (تومان)"><button class="link" style="margin-bottom:8px" onclick="$('#p_a').value=${Math.max(R,0)}">پر کردن مانده</button></div>
+${pk==='chk'?'<input id="c_no" placeholder="شماره چک / صیاد"><input id="c_bank" placeholder="بانک"><input id="c_own" placeholder="صاحب حساب"><input id="c_due" placeholder="تاریخ سررسید (مثلاً ۱۴۰۵/۰۹/۲۰)">':''}
+<input id="p_n" placeholder="توضیح (اختیاری)"><button class="btn" style="width:100%" onclick="addPay()">ثبت دریافتی</button></div>
+<div class="card"><div class="sum"><span>جمع فاکتور</span><b>${fa(T)}</b></div><div class="sum"><span>نقد و کارت</span><b>${fa(P-C)}</b></div><div class="sum"><span>چک دریافتی</span><b>${fa(C)}</b></div>
+<div class="sum big"><span>وضعیت حساب</span>${bal(R)}</div></div>
+<div class="card"><h2>پیامک به مشتری</h2><div class="chips">${Object.entries(SM).map(([k,l])=>`<button class="chip ${sk===k?'on':''}" onclick="sk='${k}';render()">${l}</button>`).join('')}</div>
+<textarea id="sms" rows="7">${esc(smsText(j,sk))}</textarea><div class="bar"><button class="btn" onclick="cp()">کپی متن</button>
+<a class="btn" href="#" onclick="this.href='sms:${esc(j.phone)}?body='+encodeURIComponent($('#sms').value)">باز کردن پیامک</a></div></div>
+<div class="bar">${j.st==='pre'?'':'<button class="btn f" onclick="pdf()">دانلود فاکتور PDF</button>'}<button class="btn ${j.st==='pre'?'f':''}" onclick="pdf(true)">دانلود پیش‌فاکتور PDF</button>${j.st!=='out'&&j.st!=='pre'?"<button class=\"btn\" onclick=\"setSt('out')\">ترخیص خودرو</button>":''}
+<button class="btn ${delArm?'red':''}" onclick="delJob()">${delArm?'مطمئنید؟ دوباره بزنید':'حذف پذیرش'}</button></div>`;
+}
+function setSt(k){const j=job();j.st=k;if(k==='out'){j.out=Date.now();toast(rest(j)>0?'ترخیص شد؛ مانده در حساب‌ها ثبت است':'ترخیص شد')}else delete j.out;save();render()}
+function addItem(){const j=job(),t=$('#i_t').value.trim(),p=num($('#i_p').value);if(!t||!p)return toast('شرح و قیمت را وارد کنید');j.items.push({t,q:num($('#i_q').value)||1,p});save();render()}
+function delItem(n){job().items.splice(n,1);save();render()}
+function addPay(){
+ const j=job(),a=num($('#p_a').value);if(!a)return toast('مبلغ را وارد کنید');
+ const p={a,k:pk,n:$('#p_n').value.trim(),d:Date.now()};
+ if(pk==='chk'){p.c={no:$('#c_no').value.trim(),bank:$('#c_bank').value.trim(),own:$('#c_own').value.trim(),due:$('#c_due').value.trim(),s:'p'}}
+ j.pays.push(p);save();render();
+}
+function delPay(n){job().pays.splice(n,1);save();render()}
+function delJob(){if(!delArm){delArm=true;render();return}db.jobs=db.jobs.filter(x=>x.id!==cur);save();go('list')}
+function Inv(j,pre){pre=pre||j.st==='pre';
+ const T=total(j),P=paid(j),C=chkS(j),R=T-P,ck=j.pays.filter(p=>p.k==='chk');
+ return `${db.logo?`<img class="wm" src="${db.logo}">`:''}<div class="ih"><div><h2>${esc(db.shop)}</h2><div>${esc(db.phone)}</div></div><div>${pre?'پیش‌فاکتور':'فاکتور'} شماره ${fa(j.id)}<br>تاریخ ${dt(Date.now())}</div></div>
+<div class="ig"><div>مشتری: ${esc(j.owner)}</div><div>موبایل: ${esc(j.phone)}</div><div>خودرو: ${esc(j.brand)} ${esc(j.model)} ${esc(j.year)}</div><div>پلاک: ${esc(j.plate)}</div><div>رنگ: ${esc(j.color)}</div><div>کارکرد: ${esc(j.km)}</div><div>پذیرش: ${dt(j.t)}</div><div>ترخیص: ${j.out?dt(j.out):'—'}</div></div>
+<table><tr><th>ردیف</th><th>شرح</th><th>تعداد</th><th>قیمت واحد</th><th>مبلغ</th></tr>${j.items.map((i,n)=>`<tr><td>${fa(n+1)}</td><td>${esc(i.t)}</td><td>${fa(i.q)}</td><td>${fa(i.p)}</td><td>${fa(i.q*i.p)}</td></tr>`).join('')}</table>
+${ck.length&&!pre?`<b>چک‌های دریافتی</b><table><tr><th>شماره</th><th>بانک</th><th>سررسید</th><th>مبلغ</th></tr>${ck.map(p=>`<tr><td>${esc(p.c.no)}</td><td>${esc(p.c.bank)}</td><td>${esc(p.c.due)}</td><td>${fa(p.a)}</td></tr>`).join('')}</table>`:''}
+<table class="tt"><tr>${pre?'<th>مبلغ برآوردی (تومان)</th><th>'+fa(T)+'</th>':'<td>جمع کل</td><td>'+fa(T)+'</td>'}</tr>${pre?'':`<tr><td>نقد و کارت</td><td>${fa(P-C)}</td></tr><tr><td>چک</td><td>${fa(C)}</td></tr><tr><th>${R>0?'مانده (بدهکار)':R<0?'طلبکار':'وضعیت'}</th><th>${R?fa(Math.abs(R))+' تومان':'تسویه شده'}</th></tr>`}</table>${pre?'<p>این پیش‌فاکتور تا ۷ روز از تاریخ صدور اعتبار دارد و فاکتور رسمی نیست. قیمت‌ها ممکن است پس از بازدید فنی تغییر کند.</p>':''}
+<div class="sg"><span>امضای مشتری</span><span>مهر و امضای تعمیرگاه</span></div>`;
+}
+async function pdf(pre){
+ const j=job(),dl=(window.claude&&await claude.use('downloads'))||{save:async({filename,data})=>{const a=document.createElement('a');a.href=URL.createObjectURL(data);a.download=filename;document.body.appendChild(a);a.click();a.remove()}};
+ if(!dl)return toast('دانلود در این نمایش ممکن نیست؛ لینک را در Chrome باز کنید');
+ if(!window.html2canvas||!window.jspdf)return toast('کتابخانه PDF بارگذاری نشده؛ اینترنت یا VPN را بررسی کنید');toast('در حال ساخت PDF…');
+ try{
+  $('#inv').innerHTML=Inv(j,pre);await document.fonts.ready;
+  const c=await html2canvas($('#inv'),{scale:2,backgroundColor:'#fff',onclone:d=>{const e=d.getElementById('inv');e.style.position='absolute';e.style.left='0';e.style.top='0'}});
+  const d=new window.jspdf.jsPDF('p','mm','a4'),W=210,H=c.height*W/c.width,img=c.toDataURL('image/jpeg',.92);
+  for(let p=0;p*297<H-1;p++){if(p)d.addPage();d.addImage(img,'JPEG',0,-p*297,W,H)}
+  await dl.save({filename:`${pre?'proforma':'invoice'}-${j.id}.pdf`,data:d.output('blob')});
+ }catch(e){if(!e||e.code!=='declined')toast('ساخت یا ذخیره PDF انجام نشد')}finally{render()}
+}
+function setLogo(f){if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const s=Math.min(1,500/im.width),c=document.createElement('canvas');c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);db.logo=c.toDataURL('image/png');save();render();toast('لوگو ذخیره شد')};im.src=r.result};r.readAsDataURL(f)}
+function Settings(){
+ return `<h1>تنظیمات</h1><div class="card"><label>نام مغازه (روی فاکتور)<input id="s_n" value="${esc(db.shop)}"></label><label>تلفن مغازه<input id="s_p" value="${esc(db.phone)}"></label>
+<button class="btn f" onclick="db.shop=$('#s_n').value.trim()||db.shop;db.phone=$('#s_p').value.trim();save();toast('ذخیره شد')">ذخیره</button></div>
+<div class="card"><h2>لوگو</h2><p class="mut">لوگو کم‌رنگ در وسط صفحه اپ و وسط فاکتور PDF نمایش داده می‌شود.</p><input type="file" accept="image/*" onchange="setLogo(this.files[0])">
+${db.logo?'<button class="btn red" onclick="db.logo=\'\';save();render()">حذف لوگو</button>':''}</div>
+<p class="mut">اطلاعات فقط روی همین گوشی و همین مرورگر ذخیره می‌شود.</p><button class="btn red" style="width:100%" onclick="logout()">خروج از حساب</button>`;
+}
+const AH='6fbff1c4ac422fcb13f056653ce7a59a97db2ffc0449ef03b6a665e1daa5bdb5';
+async function sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+function lock(){$('nav').style.display='none';$('#wm').style.display='none';$('#app').innerHTML=`<h1 style="margin-top:12vh">${esc(db.shop)}</h1><div class="card"><label>نام کاربری<input id="u" dir="ltr" autocomplete="username" autocapitalize="none"></label><label>رمز عبور<input id="pw" dir="ltr" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()"></label><button class="btn f" style="width:100%" onclick="login()">ورود</button></div>`}
+async function login(){const h=await sha($('#u').value.trim().toLowerCase()+'|'+$('#pw').value);if(h===AH){try{localStorage.setItem('carshop_auth',h)}catch(e){}$('nav').style.display='';render()}else toast('نام کاربری یا رمز عبور اشتباه است')}
+function logout(){try{localStorage.removeItem('carshop_auth')}catch(e){}lock()}
+(async()=>{let a='';try{a=localStorage.getItem('carshop_auth')}catch(e){}a===AH?render():lock()})();
+</script></body></html>
